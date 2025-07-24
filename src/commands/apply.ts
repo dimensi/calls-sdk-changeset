@@ -90,7 +90,7 @@ export async function applyCommand(dryRun: boolean = false, useCurrentVersion: b
     newChangelogContent = lines.join('\n');
   } else {
     // Создаем новый changelog
-    newChangelogContent = `# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n${changelogContent}`;
+    newChangelogContent = `${changelogContent}`;
   }
 
   // Выводим информацию

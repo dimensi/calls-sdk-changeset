@@ -1,28 +1,10 @@
 **v1.0.0**
 
-- (🐛 patch) eqweqw
-
-
-**v1.0.0**
-
-- (🚨 major) rqwerwe
-
-
-**v1.0.0**
-
-- (✨ minor) eqweqweqw
-- (🐛 patch) eqweqw
-
-
-**v2.0.0**
-
-- (🚨 major) eweqeqwe
-- (🐛 patch) ewaeawewa
-- (🐛 patch) eaweaweaw
-
-
-**v2.0.0**
-
-- (🚨 major) йцумйумйцуй
-- (🐛 patch) 312312
-
+- (🚨 major) Initial release of changeset CLI tool
+- (✨ minor) Implement compact changelog format with emoji prefixes
+- (✨ minor) Add --use-current-version option for apply command
+- (✨ minor) Add Markdown format with YAML headers for changeset files
+- (🐛 patch) Fix SWC configuration for ES modules support
+- (🐛 patch) Add comprehensive documentation and usage examples
+- (🐛 patch) Simplify interface by removing additional description field
+- (🐛 patch) Refactor changelog format, update package name, and enhance apply command functionality
