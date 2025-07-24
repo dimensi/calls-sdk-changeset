@@ -1,6 +1,6 @@
 {
   "name": "@dimensi/changeset-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "CLI tool for managing changeset files",
   "main": "dist/src/index.js",
   "type": "module",
