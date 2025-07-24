@@ -37,9 +37,10 @@ program
   .command('apply')
   .description('Apply changesets and generate changelog')
   .option('--dry-run', 'Preview changes without applying them')
+  .option('--use-current-version', 'Use current version from package.json instead of calculating new version')
   .action(async (options) => {
     try {
-      await applyCommand(options.dryRun);
+      await applyCommand(options.dryRun, options.useCurrentVersion);
     } catch (error) {
       console.error(chalk.red('❌ Error applying changesets:'), error);
       process.exit(1);

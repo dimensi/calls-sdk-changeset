@@ -12,7 +12,7 @@ import {
 } from '../utils.js';
 import { ChangelogEntry } from '../types.js';
 
-export async function applyCommand(dryRun: boolean = false): Promise<void> {
+export async function applyCommand(dryRun: boolean = false, useCurrentVersion: boolean = false): Promise<void> {
   console.log(chalk.blue('🔄 Applying changesets...\n'));
 
   const changesetFiles = getChangesetFiles();
@@ -42,16 +42,23 @@ export async function applyCommand(dryRun: boolean = false): Promise<void> {
     changes[changeset.type].push(changeset.message);
   });
 
-  // Определяем тип версии на основе изменений
-  let versionType: 'patch' | 'minor' | 'major' = 'patch';
-  if (changes.major.length > 0) {
-    versionType = 'major';
-  } else if (changes.minor.length > 0) {
-    versionType = 'minor';
+  // Определяем версию
+  let newVersion: string;
+  
+  if (useCurrentVersion) {
+    newVersion = getCurrentVersion();
+  } else {
+    // Определяем тип версии на основе изменений
+    let versionType: 'patch' | 'minor' | 'major' = 'patch';
+    if (changes.major.length > 0) {
+      versionType = 'major';
+    } else if (changes.minor.length > 0) {
+      versionType = 'minor';
+    }
+    
+    const currentVersion = getCurrentVersion();
+    newVersion = generateVersion(currentVersion, versionType);
   }
-
-  const currentVersion = getCurrentVersion();
-  const newVersion = generateVersion(currentVersion, versionType);
 
   // Создаем запись для changelog
   const changelogEntry: ChangelogEntry = {

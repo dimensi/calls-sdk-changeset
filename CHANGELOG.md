@@ -1,94 +1,28 @@
-# Changelog
+**v1.0.0**
 
-## [1.0.1] - 2025-07-24
-
-### 🐛 Bug Fixes
-- кйцукцук
+- (🐛 patch) eqweqw
 
 
+**v1.0.0**
 
-## [2.0.0] - 2025-07-24
-
-### 🚨 Breaking Changes
-- уйцуйц
+- (🚨 major) rqwerwe
 
 
+**v1.0.0**
 
-## [1.1.0] - 2025-07-24
-
-### ✨ Features
-- уйцуйцуйц
-
-### 🐛 Bug Fixes
-- уйцуйцуйцу
+- (✨ minor) eqweqweqw
+- (🐛 patch) eqweqw
 
 
+**v2.0.0**
 
-## [2.0.0] - 2025-07-24
-
-### 🚨 Breaking Changes
-- eqweqweqw
-
-
-
-## [1.1.0] - 2025-07-24
-
-### ✨ Features
-- eqweqweqw
-
-### 🐛 Bug Fixes
-- eqweqweewqeqw
+- (🚨 major) eweqeqwe
+- (🐛 patch) ewaeawewa
+- (🐛 patch) eaweaweaw
 
 
+**v2.0.0**
 
-## [2.0.0] - 2025-07-24
-
-### 🚨 Breaking Changes
-- eqweqweqw
-
-
-
-## [1.1.0] - 2025-07-24
-
-### ✨ Features
-- ewqeqweqw
-
-### 🐛 Bug Fixes
-- уцуцфуц
-
-
-
-## [1.0.1] - 2025-07-24
-
-### 🐛 Bug Fixes
-- ewaeaweaw
-
-
-
-## [1.1.0] - 2025-07-24
-
-### ✨ Features
-- eqweqweqwe
-
-
-
-## [1.0.1] - 2025-07-24
-
-### 🐛 Bug Fixes
-- ewqeqweqweeqwe
-
-
-
-All notable changes to this project will be documented in this file.
-
-## [2.0.0] - 2025-07-24
-
-### 🚨 Breaking Changes
-- rwerwerwerwe
-
-### ✨ Features
-- eqweqweqweqw
-
-### 🐛 Bug Fixes
-- dwdawdaw
+- (🚨 major) йцумйумйцуй
+- (🐛 patch) 312312
 

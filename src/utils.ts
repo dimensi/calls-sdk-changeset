@@ -126,31 +126,25 @@ export function writeChangelog(content: string): void {
 export function formatChangelogEntry(entry: ChangelogEntry): string {
   const { version, date, changes } = entry;
   
-  let content = `## [${version}] - ${date}\n\n`;
+  let content = `**v${version}**\n\n`;
   
-  if (changes.major.length > 0) {
-    content += '### 🚨 Breaking Changes\n';
-    changes.major.forEach(change => {
-      content += `- ${change}\n`;
-    });
-    content += '\n';
-  }
+  // Объединяем все изменения в один список
+  const allChanges: string[] = [];
   
-  if (changes.minor.length > 0) {
-    content += '### ✨ Features\n';
-    changes.minor.forEach(change => {
-      content += `- ${change}\n`;
-    });
-    content += '\n';
-  }
+  changes.major.forEach(change => {
+    allChanges.push(`- (🚨 major) ${change}`);
+  });
   
-  if (changes.patch.length > 0) {
-    content += '### 🐛 Bug Fixes\n';
-    changes.patch.forEach(change => {
-      content += `- ${change}\n`;
-    });
-    content += '\n';
-  }
+  changes.minor.forEach(change => {
+    allChanges.push(`- (✨ minor) ${change}`);
+  });
+  
+  changes.patch.forEach(change => {
+    allChanges.push(`- (🐛 patch) ${change}`);
+  });
+  
+  content += allChanges.join('\n');
+  content += '\n\n';
   
   return content;
 } 

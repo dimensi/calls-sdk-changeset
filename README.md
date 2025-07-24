@@ -46,6 +46,7 @@ changeset add -M
 
 #### Опции:
 - `--dry-run` - предварительный просмотр без применения изменений
+- `--use-current-version` - использовать текущую версию из package.json вместо автоматического расчета
 
 #### Примеры:
 
@@ -55,6 +56,12 @@ changeset apply
 
 # Предварительный просмотр
 changeset apply --dry-run
+
+# Использовать текущую версию из package.json
+changeset apply --use-current-version
+
+# Комбинирование опций
+changeset apply --dry-run --use-current-version
 ```
 
 ## Структура проекта
@@ -97,17 +104,21 @@ Changelog генерируется в формате Markdown:
 ```markdown
 # Changelog
 
-All notable changes to this project will be documented in this file.
+**v3.0.0**
 
-## [1.1.0] - 2024-01-15
+- (🚨 major) Breaking change in API
+- (✨ minor) Add new feature
+- (🐛 patch) Fix bug
 
-### ✨ Features
-- Add user authentication
-- Implement dark mode
+**v2.1.0**
 
-### 🐛 Bug Fixes
-- Fix login button not working
-- Resolve navigation issue
+- (✨ minor) Add user authentication
+- (🐛 patch) Fix login button not working
+
+**v2.0.0**
+
+- (🚨 major) API redesign
+- (✨ minor) Implement dark mode
 ```
 
 ## Разработка
