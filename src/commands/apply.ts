@@ -95,14 +95,13 @@ export async function applyCommand(dryRun: boolean = false): Promise<void> {
   console.log(chalk.gray(`🐛 Bug Fixes: ${changes.patch.length}`));
   
   console.log(chalk.blue('\n📝 Changes:'));
-  changes.major.forEach(change => {
-    console.log(chalk.red(`  🚨 ${change}`));
-  });
-  changes.minor.forEach(change => {
-    console.log(chalk.green(`  ✨ ${change}`));
-  });
-  changes.patch.forEach(change => {
-    console.log(chalk.blue(`  🐛 ${change}`));
+  changesets.forEach(changeset => {
+    const icon = changeset.type === 'major' ? '🚨' : changeset.type === 'minor' ? '✨' : '🐛';
+    const color = changeset.type === 'major' ? chalk.red : changeset.type === 'minor' ? chalk.green : chalk.blue;
+    console.log(color(`  ${icon} ${changeset.message}`));
+    if (changeset.description) {
+      console.log(chalk.gray(`     ${changeset.description}`));
+    }
   });
 
   if (dryRun) {

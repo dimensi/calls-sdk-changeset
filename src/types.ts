@@ -12,6 +12,15 @@ export interface ChangesetFile {
   message: string;
   timestamp: string;
   author?: string;
+  description?: string;
+}
+
+export interface ChangesetYaml {
+  type: 'patch' | 'minor' | 'major';
+  message: string;
+  timestamp: string;
+  author?: string;
+  description?: string;
 }
 
 export interface ChangelogEntry {

@@ -48,6 +48,17 @@ export async function addCommand(type?: 'patch' | 'minor' | 'major'): Promise<vo
   ]);
   message = messageAnswer.message;
 
+  // Запрашиваем дополнительное описание (опционально)
+  const descriptionAnswer = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'description',
+      message: 'Additional description (optional):',
+      default: ''
+    }
+  ]);
+  const description = descriptionAnswer.description.trim() || undefined;
+
   // Создаем changeset файл
   const id = generateChangesetId();
   const changesetData: ChangesetFile = {
@@ -55,15 +66,19 @@ export async function addCommand(type?: 'patch' | 'minor' | 'major'): Promise<vo
     type: selectedType,
     message: message.trim(),
     timestamp: formatDate(new Date()),
-    author: process.env.USER || process.env.USERNAME || 'Unknown'
+    author: process.env.USER || process.env.USERNAME || 'Unknown',
+    description
   };
 
   writeChangesetFile(id, changesetData);
 
   console.log(chalk.green('✅ Changeset created successfully!'));
-  console.log(chalk.gray(`📁 File: .changeset/${id}.json`));
+  console.log(chalk.gray(`📁 File: .changeset/${id}.md`));
   console.log(chalk.gray(`📝 Type: ${selectedType}`));
   console.log(chalk.gray(`💬 Message: ${message}`));
+  if (description) {
+    console.log(chalk.gray(`📄 Description: ${description}`));
+  }
   console.log(chalk.gray(`⏰ Timestamp: ${changesetData.timestamp}`));
   console.log(chalk.gray(`👤 Author: ${changesetData.author}`));
   console.log(chalk.yellow('\n💡 Run "changeset apply" to generate changelog'));

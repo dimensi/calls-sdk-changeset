@@ -68,7 +68,7 @@ changeset apply --dry-run
 │   ├── types.ts        # TypeScript типы
 │   ├── utils.ts        # Утилиты
 │   └── index.ts        # Главный файл CLI
-├── .changeset/         # Директория с changeset файлами
+├── .changeset/         # Директория с changeset файлами (.md)
 ├── CHANGELOG.md        # Генерируемый changelog
 ├── package.json
 ├── tsconfig.json
@@ -77,16 +77,20 @@ changeset apply --dry-run
 
 ## Формат changeset файла
 
-Каждый changeset файл имеет формат JSON:
+Каждый changeset файл имеет формат Markdown с YAML заголовком:
 
-```json
-{
-  "id": "a1b2c3d4e5f6",
-  "type": "patch",
-  "message": "Fix login button not working",
-  "timestamp": "2024-01-15",
-  "author": "username"
-}
+```markdown
+---
+type: patch
+message: Fix login button not working
+timestamp: '2024-01-15'
+author: username
+description: Additional details about the change
+---
+
+Fix login button not working
+
+Additional details about the change can be written here in Markdown format.
 ```
 
 ## Формат changelog
@@ -130,4 +134,12 @@ npm start
 - `npm run build` - сборка проекта с помощью SWC
 - `npm run dev` - сборка в режиме watch
 - `npm run start` - запуск скомпилированного приложения
-- `npm run clean` - очистка папки dist 
+- `npm run clean` - очистка папки dist
+
+## Преимущества Markdown формата
+
+- **Читаемость**: Changeset файлы легко читать и редактировать
+- **Расширяемость**: Можно добавлять дополнительное описание в Markdown формате
+- **Совместимость**: Стандартный формат для документации
+- **Версионирование**: Git лучше работает с текстовыми файлами
+- **Редактирование**: Можно легко редактировать файлы в любом текстовом редакторе 
