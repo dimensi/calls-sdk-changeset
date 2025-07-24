@@ -12,7 +12,7 @@ import {
 } from '../utils.js';
 import { ChangelogEntry } from '../types.js';
 
-export async function applyCommand(dryRun: boolean = false, useCurrentVersion: boolean = false): Promise<void> {
+export async function applyCommand(dryRun: boolean = false, useCurrentVersion: boolean = false, showFull: boolean = false): Promise<void> {
   console.log(chalk.blue('🔄 Applying changesets...\n'));
 
   const changesetFiles = getChangesetFiles();
@@ -115,7 +115,13 @@ export async function applyCommand(dryRun: boolean = false, useCurrentVersion: b
   if (dryRun) {
     console.log(chalk.yellow('\n🔍 Dry run mode - changelog preview:'));
     console.log(chalk.gray('─'.repeat(50)));
-    console.log(chalk.gray(newChangelogContent));
+    
+    if (showFull) {
+      console.log(chalk.gray(newChangelogContent));
+    } else {
+      console.log(chalk.gray(changelogContent));
+    }
+    
     console.log(chalk.gray('─'.repeat(50)));
     console.log(chalk.yellow('💡 Files were not deleted. Run without --dry-run to apply changes.'));
   } else {

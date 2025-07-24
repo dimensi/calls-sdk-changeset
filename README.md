@@ -47,6 +47,7 @@ changeset add -M
 #### Опции:
 - `--dry-run` - предварительный просмотр без применения изменений
 - `--use-current-version` - использовать текущую версию из package.json вместо автоматического расчета
+- `--full` - показать полное содержимое changelog в dry-run режиме
 
 #### Примеры:
 
@@ -54,14 +55,17 @@ changeset add -M
 # Применить изменения
 changeset apply
 
-# Предварительный просмотр
+# Предварительный просмотр (только новые изменения)
 changeset apply --dry-run
+
+# Предварительный просмотр (полный changelog)
+changeset apply --dry-run --full
 
 # Использовать текущую версию из package.json
 changeset apply --use-current-version
 
 # Комбинирование опций
-changeset apply --dry-run --use-current-version
+changeset apply --dry-run --use-current-version --full
 ```
 
 ## Структура проекта

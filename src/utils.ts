@@ -149,3 +149,24 @@ export function formatChangelogEntry(entry: ChangelogEntry): string {
 
   return content;
 }
+
+/**
+ * Читает версию из package.json
+ */
+export async function getVersion(): Promise<string> {
+  try {
+    const fs = await import('fs/promises');
+    const path = await import('path');
+    const { fileURLToPath } = await import('url');
+    
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const packageJsonPath = path.join(__dirname, '../../package.json');
+    const packageJsonContent = await fs.readFile(packageJsonPath, 'utf-8');
+    const packageJson = JSON.parse(packageJsonContent);
+    return packageJson.version;
+  } catch (error) {
+    console.warn('Не удалось прочитать версию из package.json:', error);
+    return '1.0.0'; // Fallback версия
+  }
+}
