@@ -133,15 +133,15 @@ export function formatChangelogEntry(entry: ChangelogEntry): string {
   const allChanges: string[] = [];
 
   changes.major.forEach((change) => {
-    allChanges.push(`- (🚨 major, ${date}) ${change}`);
+    allChanges.push(`* (🚨 major, ${date}) ${change}`);
   });
 
   changes.minor.forEach((change) => {
-    allChanges.push(`- (✨ minor, ${date}) ${change}`);
+    allChanges.push(`* (✨ minor, ${date}) ${change}`);
   });
 
   changes.patch.forEach((change) => {
-    allChanges.push(`- (🐛 patch, ${date}) ${change}`);
+    allChanges.push(`* (🐛 patch, ${date}) ${change}`);
   });
 
   content += allChanges.join("\n");
