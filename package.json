@@ -12,7 +12,7 @@
     "dev": "swc src -d dist --watch",
     "start": "node dist/index.js",
     "clean": "rm -rf dist",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "changeset",
