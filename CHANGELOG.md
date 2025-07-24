@@ -1,3 +1,8 @@
+**v1.1.0**
+
+- (✨ minor, 2025-07-24) Add publishConfig for public access in package.json, remove message field from ChangesetYaml, and standardize string quotes in utils.ts
+
+
 **v1.0.0**
 
 - (🚨 major) Initial release of changeset CLI tool

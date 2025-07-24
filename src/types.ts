@@ -16,7 +16,6 @@ export interface ChangesetFile {
 
 export interface ChangesetYaml {
   type: 'patch' | 'minor' | 'major';
-  message: string;
   timestamp: string;
   author?: string;
 }

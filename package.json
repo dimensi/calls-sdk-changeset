@@ -18,6 +18,9 @@
     "changelog",
     "cli"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
