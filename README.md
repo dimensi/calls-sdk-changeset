@@ -85,12 +85,9 @@ type: patch
 message: Fix login button not working
 timestamp: '2024-01-15'
 author: username
-description: Additional details about the change
 ---
 
 Fix login button not working
-
-Additional details about the change can be written here in Markdown format.
 ```
 
 ## Формат changelog
@@ -139,7 +136,7 @@ npm start
 ## Преимущества Markdown формата
 
 - **Читаемость**: Changeset файлы легко читать и редактировать
-- **Расширяемость**: Можно добавлять дополнительное описание в Markdown формате
+- **Простота**: Минимальный набор полей для быстрого создания
 - **Совместимость**: Стандартный формат для документации
 - **Версионирование**: Git лучше работает с текстовыми файлами
 - **Редактирование**: Можно легко редактировать файлы в любом текстовом редакторе 

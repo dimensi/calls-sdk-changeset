@@ -12,7 +12,6 @@ export interface ChangesetFile {
   message: string;
   timestamp: string;
   author?: string;
-  description?: string;
 }
 
 export interface ChangesetYaml {
@@ -20,7 +19,6 @@ export interface ChangesetYaml {
   message: string;
   timestamp: string;
   author?: string;
-  description?: string;
 }
 
 export interface ChangelogEntry {

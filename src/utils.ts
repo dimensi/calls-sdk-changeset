@@ -44,8 +44,7 @@ export function readChangesetFile(filename: string): ChangesetFile {
     type: yamlData.type,
     message: yamlData.message,
     timestamp: yamlData.timestamp,
-    author: yamlData.author,
-    description: yamlData.description || markdownContent.trim()
+    author: yamlData.author
   };
 }
 
@@ -58,8 +57,7 @@ export function writeChangesetFile(id: string, data: ChangesetFile): void {
     type: data.type,
     message: data.message,
     timestamp: data.timestamp,
-    author: data.author,
-    description: data.description
+    author: data.author
   };
   
   const yamlContent = yaml.dump(yamlData, { 
@@ -72,7 +70,7 @@ export function writeChangesetFile(id: string, data: ChangesetFile): void {
   const markdownContent = `---
 ${yamlContent}---
 
-${data.description || data.message}
+${data.message}
 `;
   
   fs.writeFileSync(filePath, markdownContent, 'utf-8');
