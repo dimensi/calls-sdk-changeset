@@ -1,6 +1,6 @@
 export interface ChangesetEntry {
   id: string;
-  type: 'patch' | 'minor' | 'major';
+  type: "patch" | "minor" | "major";
   message: string;
   timestamp: string;
   author?: string;
@@ -8,14 +8,14 @@ export interface ChangesetEntry {
 
 export interface ChangesetFile {
   id: string;
-  type: 'patch' | 'minor' | 'major';
+  type: "patch" | "minor" | "major";
   message: string;
   timestamp: string;
   author?: string;
 }
 
 export interface ChangesetYaml {
-  type: 'patch' | 'minor' | 'major';
+  type: "patch" | "minor" | "major";
   timestamp: string;
   author?: string;
 }
@@ -33,5 +33,5 @@ export interface ChangelogEntry {
 export interface ChangelogConfig {
   title?: string;
   description?: string;
-  format?: 'markdown' | 'json';
-} 
+  format?: "markdown" | "json";
+}

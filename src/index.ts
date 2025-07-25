@@ -48,17 +48,25 @@ program
     "Use current version from package.json instead of calculating new version"
   )
   .option("--full", "Show full changelog content in dry-run mode")
+  .option("--save", "Save processed files to save.json (works only with --dry-run)")
   .action(async (options) => {
-    try {
-      await applyCommand(
-        options.dryRun,
-        options.useCurrentVersion,
-        options.full
-      );
-    } catch (error) {
-      console.error(chalk.red("❌ Error applying changesets:"), error);
-      process.exit(1);
-    }
+          try {
+        // Проверяем, что --save используется только с --dry-run
+        if (options.save && !options.dryRun) {
+          console.error(chalk.red("❌ Error: --save option can only be used with --dry-run"));
+          process.exit(1);
+        }
+        
+        await applyCommand(
+          options.dryRun,
+          options.useCurrentVersion,
+          options.full,
+          options.save
+        );
+      } catch (error) {
+        console.error(chalk.red("❌ Error applying changesets:"), error);
+        process.exit(1);
+      }
   });
 
 // Обработка ошибок

@@ -1,3 +1,8 @@
+**v1.3.0**
+
+* (✨ minor, 2025-07-25) Refactor package.json and enhance command options. Update main entry point and add files to package.json. Improve error handling in apply command and add save functionality for processed files. Standardize string quotes in types and commands.
+
+
 **v1.2.1**
 
 * (🐛 patch, 2025-07-24) Update changelog format to use asterisks for entries and ensure consistent formatting in utils.ts

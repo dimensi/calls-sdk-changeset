@@ -2,6 +2,7 @@ import fs from "fs-extra";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 import yaml from "js-yaml";
+import chalk from "chalk";
 import { ChangesetFile, ChangelogEntry, ChangesetYaml } from "./types.js";
 
 export const CHANGESET_DIR = ".changeset";
@@ -125,6 +126,37 @@ export function writeChangelog(content: string): void {
   fs.writeFileSync("CHANGELOG.md", content, "utf-8");
 }
 
+export function readSaveFile(): string[] {
+  try {
+    const savePath = ".changeset/save.json";
+    if (fs.existsSync(savePath)) {
+      return fs.readJsonSync(savePath);
+    }
+  } catch (error) {
+    console.warn(chalk.yellow("⚠️  Warning: Could not read save.json file"));
+  }
+  return [];
+}
+
+export function writeSaveFile(processedFiles: string[]): void {
+  ensureChangesetDir();
+  const savePath = ".changeset/save.json";
+  fs.writeJsonSync(savePath, processedFiles, { spaces: 2 });
+}
+
+export function getUnprocessedFiles(): string[] {
+  const allFiles = getChangesetFiles();
+  const processedFiles = readSaveFile();
+  return allFiles.filter((file) => !processedFiles.includes(file));
+}
+
+export function clearSaveFile(): void {
+  const savePath = ".changeset/save.json";
+  if (fs.existsSync(savePath)) {
+    fs.removeSync(savePath);
+  }
+}
+
 export function formatChangelogEntry(entry: ChangelogEntry): string {
   const { version, date, changes } = entry;
 
@@ -155,18 +187,18 @@ export function formatChangelogEntry(entry: ChangelogEntry): string {
  */
 export async function getVersion(): Promise<string> {
   try {
-    const fs = await import('fs/promises');
-    const path = await import('path');
-    const { fileURLToPath } = await import('url');
-    
+    const fs = await import("fs/promises");
+    const path = await import("path");
+    const { fileURLToPath } = await import("url");
+
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = path.dirname(__filename);
-    const packageJsonPath = path.join(__dirname, '../../package.json');
-    const packageJsonContent = await fs.readFile(packageJsonPath, 'utf-8');
+    const packageJsonPath = path.join(__dirname, "../package.json");
+    const packageJsonContent = await fs.readFile(packageJsonPath, "utf-8");
     const packageJson = JSON.parse(packageJsonContent);
     return packageJson.version;
   } catch (error) {
-    console.warn('Не удалось прочитать версию из package.json:', error);
-    return '1.0.0'; // Fallback версия
+    console.warn("Не удалось прочитать версию из package.json:", error);
+    return "1.0.0"; // Fallback версия
   }
 }
