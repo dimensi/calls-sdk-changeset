@@ -1,3 +1,9 @@
+**v1.4.0**
+
+* (✨ minor, 2025-07-25) Enhance apply command to support filtering changesets by date.
+* (🐛 patch, 2025-07-25) Update package-lock.json and package.json to reflect new package name and add chokidar dependency.
+
+
 **v1.3.0**
 
 * (✨ minor, 2025-07-25) Refactor package.json and enhance command options. Update main entry point and add files to package.json. Improve error handling in apply command and add save functionality for processed files. Standardize string quotes in types and commands.

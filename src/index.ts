@@ -49,6 +49,7 @@ program
   )
   .option("--full", "Show full changelog content in dry-run mode")
   .option("--save", "Save processed files to save.json (works only with --dry-run)")
+  .option("--from-date <date>", "Apply changesets from a specific date (YYYY-MM-DD)")
   .action(async (options) => {
           try {
         // Проверяем, что --save используется только с --dry-run
@@ -56,12 +57,22 @@ program
           console.error(chalk.red("❌ Error: --save option can only be used with --dry-run"));
           process.exit(1);
         }
+
+        if (options.fromDate) {
+          const parsedFromDate = new Date(options.fromDate);
+          if (isNaN(parsedFromDate.getTime())) {
+            console.error(chalk.red("❌ Error: Invalid date format"));
+            process.exit(1);
+          }
+          options.fromDate = parsedFromDate;
+        }
         
         await applyCommand(
           options.dryRun,
           options.useCurrentVersion,
           options.full,
-          options.save
+          options.save,
+          options.fromDate
         );
       } catch (error) {
         console.error(chalk.red("❌ Error applying changesets:"), error);

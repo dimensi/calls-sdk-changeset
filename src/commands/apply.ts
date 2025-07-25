@@ -21,24 +21,44 @@ export async function applyCommand(
   useCurrentVersion: boolean = false,
   showFull: boolean = false,
   saveMode: boolean = false,
+  fromDate: Date | undefined = undefined
 ): Promise<void> {
-  console.log(chalk.blue("🔄 Applying changesets...\n"));
+  console.log(
+    fromDate
+      ? chalk.bgBlue(
+          `🔄 Applying changesets from date ${fromDate.toLocaleDateString(
+            "ru-RU"
+          )}...`
+        )
+      : chalk.blue("🔄 Applying changesets...\n")
+  );
 
   const changesetFiles = saveMode ? getUnprocessedFiles() : getChangesetFiles();
 
-  if (changesetFiles.length === 0) {
+  // Читаем все changeset файлы
+  const changesets = changesetFiles
+    .map((filename) => {
+      const data = readChangesetFile(filename);
+      return { filename, ...data };
+    })
+    .filter((changeset) => {
+      const changesetDate = new Date(changeset.timestamp);
+      return fromDate ? changesetDate >= fromDate : true;
+    });
+
+  if (changesets.length === 0 && !fromDate) {
     console.log(chalk.yellow("⚠️  No changeset files found"));
     console.log(chalk.gray('Run "changeset add" to create a new changeset'));
     return;
   }
 
-  console.log(chalk.gray(`Found ${changesetFiles.length} changeset file(s)`));
+  if (changesets.length === 0 && fromDate) {
+    console.log(chalk.yellow("⚠️  No changeset files found from this date"));
+    console.log(chalk.gray("Try to apply changesets from another date"));
+    return;
+  }
 
-  // Читаем все changeset файлы
-  const changesets = changesetFiles.map((filename) => {
-    const data = readChangesetFile(filename);
-    return { filename, ...data };
-  });
+  console.log(chalk.gray(`Found ${changesets.length} changeset file(s)`));
 
   // Группируем изменения по типу
   const changes = {
