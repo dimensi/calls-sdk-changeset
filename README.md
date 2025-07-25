@@ -19,6 +19,7 @@ npm link  # для глобального использования
 Создает новый changeset файл с рандомным ID.
 
 #### Опции:
+
 - `--patch` или `-p` - создать patch changeset (исправления багов)
 - `--minor` или `-m` - создать minor changeset (новые функции)
 - `--major` или `-M` - создать major changeset (breaking changes)
@@ -45,9 +46,12 @@ changeset add -M
 Собирает все changeset файлы, генерирует changelog и удаляет файлы.
 
 #### Опции:
+
 - `--dry-run` - предварительный просмотр без применения изменений
 - `--use-current-version` - использовать текущую версию из package.json вместо автоматического расчета
 - `--full` - показать полное содержимое changelog в dry-run режиме
+- `--save` - сохранить обработанные файлы в save.json (работает только с --dry-run). Полезно для бета-релизов, когда нужно сгенерировать changelog без обновления основного файла
+- `--from-date <date>` - применить changeset файлы с определенной даты (формат YYYY-MM-DD)
 
 #### Примеры:
 
@@ -66,7 +70,55 @@ changeset apply --use-current-version
 
 # Комбинирование опций
 changeset apply --dry-run --use-current-version --full
+
+# Сохранение обработанных файлов в save.json
+changeset apply --dry-run --save
+
+# Применение changeset файлов с определенной даты
+changeset apply --from-date 2024-01-15
+
+# Предварительный просмотр с фильтрацией по дате
+changeset apply --dry-run --from-date 2024-01-15
 ```
+
+### Пример использования функции Save
+
+Функция `--save` позволяет сохранить обработанные файлы в save.json без их удаления. Это может быть полезно в различных сценариях.
+
+#### Пример: Бета-релизы
+
+Один из возможных кейсов использования - создание бета-релизов с changelog без обновления основного CHANGELOG.md файла:
+
+```bash
+# Генерация changelog для бета-версии (файлы не удаляются)
+changeset apply --dry-run --save
+
+# Бета-релиз с определенной версией
+changeset apply --dry-run --save --use-current-version
+
+# Бета-релиз с полным changelog
+changeset apply --dry-run --save --full
+```
+
+#### Workflow для бета-релизов:
+
+```bash
+# 1. Создаем бета-версию с changelog
+changeset apply --dry-run --save --full > beta-changelog.md
+
+# 2. Публикуем бета-версию с changelog
+# (beta-changelog.md можно использовать для релизных заметок)
+
+# 3. Когда готовы к финальному релизу, применяем изменения
+changeset apply
+```
+
+#### Что происходит при использовании --save:
+
+- Файлы помечаются как обработанные в save.json
+- CHANGELOG.md не изменяется
+- Можно повторно применять изменения
+- При обычном `changeset apply` save.json очищается
 
 ## Структура проекта
 
@@ -93,8 +145,7 @@ changeset apply --dry-run --use-current-version --full
 ```markdown
 ---
 type: patch
-message: Fix login button not working
-timestamp: '2024-01-15'
+timestamp: "2024-01-15"
 author: username
 ---
 
@@ -154,4 +205,4 @@ npm start
 - **Простота**: Минимальный набор полей для быстрого создания
 - **Совместимость**: Стандартный формат для документации
 - **Версионирование**: Git лучше работает с текстовыми файлами
-- **Редактирование**: Можно легко редактировать файлы в любом текстовом редакторе 
+- **Редактирование**: Можно легко редактировать файлы в любом текстовом редакторе
