@@ -24,6 +24,9 @@ program
   .option("-p, --patch", "Create a patch changeset (bug fixes)")
   .option("-m, --minor", "Create a minor changeset (new features)")
   .option("-M, --major", "Create a major changeset (breaking changes)")
+  .option("-t, --type <type>", "Set change type directly (patch|minor|major)")
+  .option("--message <message>", "Set message directly without prompt")
+  .option("--stdin", "Read message from stdin (non-interactive mode)")
   .action(async (options) => {
     try {
       let type: "patch" | "minor" | "major" | undefined;
@@ -31,8 +34,21 @@ program
       if (options.patch) type = "patch";
       else if (options.minor) type = "minor";
       else if (options.major) type = "major";
+      else if (options.type) {
+        if (!["patch", "minor", "major"].includes(options.type)) {
+          console.error(
+            chalk.red("❌ Error: --type must be one of patch, minor, or major")
+          );
+          process.exit(1);
+        }
+        type = options.type;
+      }
 
-      await addCommand(type);
+      await addCommand({
+        type,
+        message: options.message,
+        stdin: options.stdin,
+      });
     } catch (error) {
       console.error(chalk.red("❌ Error creating changeset:"), error);
       process.exit(1);
