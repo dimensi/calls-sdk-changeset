@@ -233,20 +233,25 @@ npm start
 
 В репозитории добавлен workflow `.github/workflows/npm-publish.yml`, который публикует пакет в npm по Trusted Publishing (OIDC):
 
+- ручной запуск (`workflow_dispatch`) с выбором типа релиза: `patch`, `minor` или `major`
 - запуск при push тега `v*`
-- ручной запуск (`workflow_dispatch`) с указанием тега
 - публикация через `npm publish --access public`
 - создание GitHub Release с notes из `CHANGELOG.md`
 
 Trusted Publishing автоматически добавляет provenance attestation, поэтому отдельный npm token и флаг `--provenance` в workflow не нужны.
 
-Перед публикацией workflow выполняет:
+При ручном запуске workflow сначала подготавливает релиз:
 
 1. `npm ci`
 2. `npm run build`
 3. `npm run typecheck`
-4. проверку совпадения тега `vX.Y.Z` с `package.json` version
-5. `changeset release-notes --version X.Y.Z --output .release-notes.md`
+4. `npm version <patch|minor|major> --no-git-tag-version`
+5. `changeset apply --use-current-version`
+6. commit `chore(release): publish vX.Y.Z`
+7. tag `vX.Y.Z`
+8. запуск publish job для этого тега
+
+Publish job дополнительно проверяет совпадение тега `vX.Y.Z` с `package.json` version и генерирует release notes командой `changeset release-notes --version X.Y.Z --output .release-notes.md`.
 
 ## Скрипты
 
