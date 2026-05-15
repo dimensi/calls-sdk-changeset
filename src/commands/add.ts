@@ -5,18 +5,32 @@ import {
   writeChangesetFile,
   formatDate,
 } from "../utils.js";
-import { ChangesetFile } from "../types.js";
+import { AddCommandOptions, ChangesetFile } from "../types.js";
 
-export async function addCommand(
-  type?: "patch" | "minor" | "major"
-): Promise<void> {
+async function readMessageFromStdin(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    process.stdin.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    process.stdin.on("end", () => resolve(Buffer.concat(chunks).toString("utf-8")));
+    process.stdin.on("error", reject);
+  });
+}
+
+export async function addCommand(options: AddCommandOptions = {}): Promise<void> {
   console.log(chalk.blue("📝 Creating new changeset...\n"));
 
   let selectedType: "patch" | "minor" | "major";
-  let message: string;
+  let message: string | undefined = options.message;
+  const isNonInteractive = Boolean(options.stdin || !process.stdin.isTTY);
 
   // Если тип не указан, предлагаем выбрать интерактивно
-  if (!type) {
+  if (!options.type) {
+    if (isNonInteractive) {
+      throw new Error(
+        "Non-interactive mode requires explicit change type. Use --patch, --minor, --major or --type."
+      );
+    }
+
     const typeAnswer = await inquirer.prompt([
       {
         type: "list",
@@ -31,24 +45,34 @@ export async function addCommand(
     ]);
     selectedType = typeAnswer.type;
   } else {
-    selectedType = type;
+    selectedType = options.type;
   }
 
-  // Запрашиваем сообщение об изменении
-  const messageAnswer = await inquirer.prompt([
-    {
-      type: "input",
-      name: "message",
-      message: "Describe the change:",
-      validate: (input: string) => {
-        if (input.trim().length === 0) {
-          return "Message cannot be empty";
-        }
-        return true;
+  if (!message && isNonInteractive) {
+    message = (await readMessageFromStdin()).trim();
+  }
+
+  // Запрашиваем сообщение об изменении в интерактивном режиме
+  if (!message) {
+    const messageAnswer = await inquirer.prompt([
+      {
+        type: "input",
+        name: "message",
+        message: "Describe the change:",
+        validate: (input: string) => {
+          if (input.trim().length === 0) {
+            return "Message cannot be empty";
+          }
+          return true;
+        },
       },
-    },
-  ]);
-  message = messageAnswer.message;
+    ]);
+    message = messageAnswer.message;
+  }
+
+  if (!message || message.trim().length === 0) {
+    throw new Error("Message cannot be empty");
+  }
 
   // Создаем changeset файл
   const id = generateChangesetId();

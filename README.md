@@ -23,6 +23,9 @@ npm link  # для глобального использования
 - `--patch` или `-p` - создать patch changeset (исправления багов)
 - `--minor` или `-m` - создать minor changeset (новые функции)
 - `--major` или `-M` - создать major changeset (breaking changes)
+- `--type <type>` или `-t <type>` - явно задать тип (`patch | minor | major`)
+- `--message <message>` - передать текст изменения без интерактивного вопроса
+- `--stdin` - прочитать текст изменения из stdin (для CI/скриптов)
 
 #### Примеры:
 
@@ -39,7 +42,25 @@ changeset add --major
 changeset add -p
 changeset add -m
 changeset add -M
+
+# Явный выбор типа через --type
+changeset add --type patch
+changeset add -t minor
+
+# Полностью неинтерактивный режим
+changeset add --type patch --message "Fix race condition in call state sync"
+echo "Fix token refresh in reconnect flow" | changeset add --major --stdin
 ```
+
+#### Неинтерактивный режим (CI / automation)
+
+Команда `changeset add` автоматически переходит в неинтерактивный режим, если stdin не TTY (например, в CI пайплайнах).
+
+Важно:
+
+- В неинтерактивном режиме **обязательно** указывать тип изменения (`--patch`, `--minor`, `--major` или `--type`).
+- Сообщение можно передать через `--message` или через `--stdin`.
+- Пустое сообщение не допускается.
 
 ### Команда `apply`
 
@@ -192,9 +213,25 @@ npm run dev
 npm start
 ```
 
+## Автопубликация в npm (GitHub Actions)
+
+В репозитории добавлен workflow `.github/workflows/npm-publish.yml`, который публикует пакет в npm по Trusted Publishing (OIDC):
+
+- запуск при публикации GitHub Release (`release.published`)
+- ручной запуск (`workflow_dispatch`)
+- публикация через `npm publish --provenance --access public`
+
+Перед публикацией workflow выполняет:
+
+1. `npm ci`
+2. `npm run build`
+3. `npm run typecheck`
+
 ## Скрипты
 
 - `npm run build` - сборка проекта с помощью SWC
+- `npm run typecheck` - проверка TypeScript типов без генерации файлов
+- `npm run lint` - текущая линт-проверка (на базе `tsc --noEmit`)
 - `npm run dev` - сборка в режиме watch
 - `npm run start` - запуск скомпилированного приложения
 - `npm run clean` - очистка папки dist

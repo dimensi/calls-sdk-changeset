@@ -35,3 +35,9 @@ export interface ChangelogConfig {
   description?: string;
   format?: "markdown" | "json";
 }
+
+export interface AddCommandOptions {
+  type?: "patch" | "minor" | "major";
+  message?: string;
+  stdin?: boolean;
+}
