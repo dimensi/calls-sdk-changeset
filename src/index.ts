@@ -4,6 +4,7 @@ import { Command } from "commander";
 import chalk from "chalk";
 import { addCommand } from "./commands/add.js";
 import { applyCommand } from "./commands/apply.js";
+import { releaseNotesCommand } from "./commands/release-notes.js";
 import { getVersion } from "./utils.js";
 
 const program = new Command();
@@ -16,7 +17,7 @@ program
   .description(
     "CLI tool for managing changeset files and generating changelogs"
   )
-  .version(version);
+  .version(version, "-V, --cli-version", "output the CLI version");
 
 program
   .command("add")
@@ -94,6 +95,20 @@ program
         console.error(chalk.red("❌ Error applying changesets:"), error);
         process.exit(1);
       }
+  });
+
+program
+  .command("release-notes")
+  .description("Extract release notes for a version from CHANGELOG.md")
+  .requiredOption("--version <version>", "Version to extract (for example 1.5.0)")
+  .requiredOption("--output <file>", "File to write release notes to")
+  .action(async (options) => {
+    try {
+      await releaseNotesCommand(options.version, options.output);
+    } catch (error) {
+      console.error(chalk.red("❌ Error generating release notes:"), error);
+      process.exit(1);
+    }
   });
 
 // Обработка ошибок

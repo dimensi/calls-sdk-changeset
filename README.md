@@ -102,6 +102,21 @@ changeset apply --from-date 2024-01-15
 changeset apply --dry-run --from-date 2024-01-15
 ```
 
+### Команда `release-notes`
+
+Извлекает запись конкретной версии из `CHANGELOG.md` и сохраняет ее в отдельный файл. Команда используется в GitHub Actions для создания GitHub Release notes из changelog, который сгенерировала сама тулза.
+
+#### Опции:
+
+- `--version <version>` - версия для извлечения (`1.5.0` или `v1.5.0`)
+- `--output <file>` - файл для сохранения release notes
+
+#### Пример:
+
+```bash
+changeset release-notes --version 1.5.0 --output .release-notes.md
+```
+
 ### Пример использования функции Save
 
 Функция `--save` позволяет сохранить обработанные файлы в save.json без их удаления. Это может быть полезно в различных сценариях.
@@ -147,8 +162,9 @@ changeset apply
 .
 ├── src/
 │   ├── commands/
-│   │   ├── add.ts      # Команда создания changeset
-│   │   └── apply.ts    # Команда применения changeset
+│   │   ├── add.ts           # Команда создания changeset
+│   │   ├── apply.ts         # Команда применения changeset
+│   │   └── release-notes.ts # Команда генерации release notes
 │   ├── types.ts        # TypeScript типы
 │   ├── utils.ts        # Утилиты
 │   └── index.ts        # Главный файл CLI
@@ -217,15 +233,20 @@ npm start
 
 В репозитории добавлен workflow `.github/workflows/npm-publish.yml`, который публикует пакет в npm по Trusted Publishing (OIDC):
 
-- запуск при публикации GitHub Release (`release.published`)
-- ручной запуск (`workflow_dispatch`)
-- публикация через `npm publish --provenance --access public`
+- запуск при push тега `v*`
+- ручной запуск (`workflow_dispatch`) с указанием тега
+- публикация через `npm publish --access public`
+- создание GitHub Release с notes из `CHANGELOG.md`
+
+Trusted Publishing автоматически добавляет provenance attestation, поэтому отдельный npm token и флаг `--provenance` в workflow не нужны.
 
 Перед публикацией workflow выполняет:
 
 1. `npm ci`
 2. `npm run build`
 3. `npm run typecheck`
+4. проверку совпадения тега `vX.Y.Z` с `package.json` version
+5. `changeset release-notes --version X.Y.Z --output .release-notes.md`
 
 ## Скрипты
 

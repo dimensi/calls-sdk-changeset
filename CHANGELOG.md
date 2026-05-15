@@ -1,3 +1,10 @@
+**v1.5.0**
+
+* (✨ minor, 2026-05-15) Add non-interactive changeset creation for CI and scripts
+* (🐛 patch, 2026-05-15) Update npm publish workflow to Node 24-compatible GitHub Actions
+* (🐛 patch, 2026-05-15) Add npm Trusted Publishing automation with GitHub Release notes
+
+
 **v1.4.0**
 
 * (✨ minor, 2025-07-25) Enhance apply command to support filtering changesets by date.
