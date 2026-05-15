@@ -1,3 +1,8 @@
+**v1.5.1**
+
+* (🐛 patch, 2026-05-15) Automate release preparation from GitHub Actions and document changeset follow-up instructions
+
+
 **v1.5.0**
 
 * (✨ minor, 2026-05-15) Add non-interactive changeset creation for CI and scripts
